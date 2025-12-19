@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import SkeletonLoader from '../components/SkeletonLoader.jsx';
+import ScrollReveal from '../components/ScrollReveal';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,7 +30,9 @@ export default function Skills() {
 
   return (
     <section className="section container" id="skills">
-      <h2 className="title">Skills</h2>
+      <ScrollReveal>
+        <h2 className="title">Skills</h2>
+      </ScrollReveal>
       {loading ? (
         <SkeletonLoader />
       ) : (
@@ -38,26 +41,52 @@ export default function Skills() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}>
-          {skills.map(s => (
-            <motion.div key={s._id} className="card group hover:shadow-lg transition-shadow cursor-pointer"
-              variants={itemVariants}
-              whileHover={{ x: 5 }}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-semibold text-lg">{s.name}</span>
-                <motion.span className="text-sm font-bold bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}>
-                  {s.proficiency}%
-                </motion.span>
-              </div>
-              <div className="relative w-full bg-gray-200 dark:bg-gray-800 rounded-full h-3 overflow-hidden shadow-inner">
-                <motion.div className="absolute inset-y-0 left-0 bg-gradient-to-r from-brand via-brand-dark to-brand rounded-full shadow-lg"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${s.proficiency}%` }}
-                  transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
-                  viewport={{ once: true }} />
-              </div>
-            </motion.div>
+          {skills.map((s, idx) => (
+            <ScrollReveal key={s._id} delay={idx * 0.1}>
+              <motion.div className="card card-hover group cursor-pointer relative overflow-hidden"
+                variants={itemVariants}
+                whileHover={{ x: 8, y: -4 }}>
+                {/* Glow background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-brand/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <motion.span 
+                      className="font-bold text-lg bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent"
+                      animate={{ opacity: [1, 0.7, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      {s.name}
+                    </motion.span>
+                    <motion.span className="text-sm font-bold bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent"
+                      animate={{ scale: [1, 1.15, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}>
+                      {s.proficiency}%
+                    </motion.span>
+                  </div>
+
+                  {/* Enhanced Progress Bar */}
+                  <div className="relative w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700 rounded-full h-3 overflow-hidden shadow-inner">
+                    <motion.div 
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-brand via-cyan-400 to-brand-dark rounded-full shadow-lg"
+                      initial={{ width: 0, opacity: 0 }}
+                      whileInView={{ width: `${s.proficiency}%`, opacity: 1 }}
+                      transition={{ duration: 1.2, delay: 0.2, ease: 'easeOut' }}
+                      viewport={{ once: true }}
+                    />
+                    
+                    {/* Shimmer effect on progress bar */}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      animate={{ x: ['-100%', '100%'] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </ScrollReveal>
+          ))}
+
           ))}
         </motion.div>
       )}

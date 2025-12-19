@@ -1,42 +1,109 @@
 import { motion } from 'framer-motion';
 import AnimatedCounter from '../components/AnimatedCounter.jsx';
+import ScrollReveal from '../components/ScrollReveal';
 
 export default function About() {
   return (
     <section className="section container" id="about">
-      <h2 className="title">About Me</h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        <motion.div className="card"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-            Passionate developer focused on building delightful, performant interfaces. With years of experience in modern web technologies, I craft seamless user experiences and scalable solutions.
-          </p>
-          <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-              <div className="text-3xl font-bold text-brand"><AnimatedCounter end={3} /></div>
-              <div className="text-sm text-gray-500">Years</div>
+      <ScrollReveal>
+        <h2 className="title">About Me</h2>
+      </ScrollReveal>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        <ScrollReveal direction="left">
+          <motion.div className="card card-hover relative"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}>
+            
+            {/* Card background glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-cyan-400/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+            
+            <div className="relative z-10">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                Passionate full-stack developer transforming ideas into beautiful, high-performance digital experiences. I specialize in modern web technologies and love crafting seamless user interfaces paired with robust backend solutions.
+              </p>
+              
+              {/* Stats Grid */}
+              <div className="mt-8 grid grid-cols-3 gap-4">
+                <motion.div 
+                  className="p-4 rounded-lg bg-gradient-to-br from-brand/10 to-cyan-400/10 border border-brand/20 text-center group hover:border-brand/50 transition-all"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
+                >
+                  <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
+                    <AnimatedCounter end={3} />
+                  </div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Years Exp</div>
+                </motion.div>
+                
+                <motion.div 
+                  className="p-4 rounded-lg bg-gradient-to-br from-brand/10 to-cyan-400/10 border border-brand/20 text-center group hover:border-brand/50 transition-all"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
+                >
+                  <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
+                    <AnimatedCounter end={20} />
+                  </div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Projects</div>
+                </motion.div>
+                
+                <motion.div 
+                  className="p-4 rounded-lg bg-gradient-to-br from-brand/10 to-cyan-400/10 border border-brand/20 text-center group hover:border-brand/50 transition-all"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
+                >
+                  <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
+                    <AnimatedCounter end={5} />
+                  </div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Certifications</div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </ScrollReveal>
+        
+        <ScrollReveal direction="right">
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, type: 'spring', stiffness: 100 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <motion.div 
+              className="rounded-2xl overflow-hidden shadow-2xl ring-4 ring-brand/20"
+              animate={{ 
+                boxShadow: [
+                  '0 0 20px rgba(79, 70, 229, 0.3)',
+                  '0 0 40px rgba(79, 70, 229, 0.6)',
+                  '0 0 20px rgba(79, 70, 229, 0.3)',
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <motion.img 
+                className="w-full h-80 object-cover"
+                src="/temp/my photo.jpg" 
+                alt="Profile" 
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-              <div className="text-3xl font-bold text-brand"><AnimatedCounter end={20} /></div>
-              <div className="text-sm text-gray-500">Projects</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-              <div className="text-3xl font-bold text-brand"><AnimatedCounter end={5} /></div>
-              <div className="text-sm text-gray-500">Certs</div>
-            </motion.div>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          whileHover={{ y: -10, transition: { duration: 0.3 } }}>
-          <img className="rounded-xl object-cover w-full h-64 shadow-lg" src="/temp/my photo.jpg" alt="Profile" />
-        </motion.div>
+          </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

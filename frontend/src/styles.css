@@ -133,3 +133,111 @@ html.dark textarea::placeholder {
 .group:hover .card {
   animation: glow 2s ease-in-out;
 }
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-10px) translateX(5px); }
+  50% { transform: translateY(-20px) translateX(0px); }
+  75% { transform: translateY(-10px) translateX(-5px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes blur-in {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.2) 50%, #fff 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+.blur-in {
+  animation: blur-in 0.8s ease-out forwards;
+}
+
+.slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+}
+
+/* Card enhancement on hover */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15);
+}
+
+html.dark .card-hover:hover {
+  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.25);
+}
+
+/* Parallax effect */
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Stagger animation */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stagger-item.visible {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+/* Glow text effect */
+.glow-text {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.5), #fff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-text 3s linear infinite;
+}
+
+html.dark .glow-text {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.7), #fff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-text 3s linear infinite;
+}

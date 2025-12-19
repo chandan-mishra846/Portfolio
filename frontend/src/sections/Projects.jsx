@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import SkeletonLoader from '../components/SkeletonLoader.jsx';
+import ScrollReveal from '../components/ScrollReveal';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,7 +30,9 @@ export default function Projects() {
 
   return (
     <section className="section container" id="projects">
-      <h2 className="title">Projects</h2>
+      <ScrollReveal>
+        <h2 className="title">Projects</h2>
+      </ScrollReveal>
       {loading ? (
         <div className="grid md:grid-cols-3 gap-6">
           {[1, 2, 3].map(i => (
@@ -44,37 +47,89 @@ export default function Projects() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}>
-          {projects.map(p => (
-            <motion.div key={p._id} className="card group overflow-hidden hover:shadow-xl transition-shadow"
-              variants={itemVariants}
-              whileHover={{ y: -12, transition: { duration: 0.3 } }}>
-              <div className="relative overflow-hidden rounded-lg h-40 bg-gray-100 dark:bg-gray-800">
-                <motion.img src={p.image || 'https://picsum.photos/400/240'} alt={p.title} className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.15 }}
-                  transition={{ duration: 0.4 }} />
-                <motion.div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <p className="text-white text-sm font-medium">{p.description.substring(0, 50)}...</p>
-                </motion.div>
-              </div>
-              <h3 className="mt-4 text-xl font-semibold group-hover:text-brand transition-colors">{p.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">{p.description}</p>
-              <div className="mt-3 flex gap-2 flex-wrap">
-                {p.techStack?.map(t => (
-                  <motion.span key={t} className="px-2 py-1 bg-gradient-to-r from-brand/10 to-brand-dark/10 border border-brand/30 rounded-md text-xs font-medium text-brand dark:text-brand-dark"
-                    whileHover={{ scale: 1.1, boxShadow: '0 0 8px rgba(79, 70, 229, 0.4)' }}
-                    transition={{ duration: 0.2 }}>
-                    {t}
-                  </motion.span>
-                ))}
-              </div>
-              <motion.div className="mt-4 flex gap-3"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}>
-                {p.liveLink && <a className="link hover:scale-110 transition-transform" href={p.liveLink} target="_blank" rel="noreferrer">Live</a>}
-                {p.githubLink && <a className="link hover:scale-110 transition-transform" href={p.githubLink} target="_blank" rel="noreferrer">GitHub</a>}
+          {projects.map((p, idx) => (
+            <ScrollReveal key={p._id} direction="up" delay={idx * 0.1}>
+              <motion.div className="card card-hover group overflow-hidden relative"
+                variants={itemVariants}
+                whileHover={{ y: -12, transition: { duration: 0.3 } }}>
+                
+                {/* Card glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/0 to-cyan-400/0 group-hover:from-brand/10 group-hover:to-cyan-400/10 transition-all duration-300 rounded-xl" />
+
+                <div className="relative overflow-hidden rounded-lg h-40 bg-gray-100 dark:bg-gray-800">
+                  <motion.img 
+                    src={p.image || 'https://picsum.photos/400/240'} 
+                    alt={p.title} 
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.2, rotate: 2 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 backdrop-blur-sm">
+                    <p className="text-white text-sm font-medium leading-relaxed">{p.description.substring(0, 60)}...</p>
+                  </motion.div>
+                </div>
+
+                <div className="relative z-10">
+                  <motion.h3 
+                    className="mt-4 text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent group-hover:from-brand group-hover:to-cyan-400 transition-all"
+                  >
+                    {p.title}
+                  </motion.h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{p.description}</p>
+
+                  <div className="mt-4 flex gap-2 flex-wrap">
+                    {p.techStack?.map((t, tidx) => (
+                      <motion.span 
+                        key={t} 
+                        className="px-3 py-1.5 bg-gradient-to-r from-brand/10 to-cyan-400/10 border border-brand/40 dark:border-brand/60 rounded-lg text-xs font-semibold text-brand dark:text-cyan-400 backdrop-blur-sm"
+                        whileHover={{ 
+                          scale: 1.15, 
+                          boxShadow: '0 0 12px rgba(79, 70, 229, 0.5)',
+                          background: 'linear-gradient(to right, rgba(79, 70, 229, 0.2), rgba(34, 211, 238, 0.2))'
+                        }}
+                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: tidx * 0.05 }}
+                        viewport={{ once: true }}
+                      >
+                        {t}
+                      </motion.span>
+                    ))}
+                  </div>
+
+                  <motion.div className="mt-5 flex gap-4"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}>
+                    {p.liveLink && (
+                      <motion.a 
+                        className="px-4 py-2 bg-gradient-to-r from-brand to-cyan-400 text-white font-semibold rounded-lg text-sm hover:shadow-lg transition-all" 
+                        href={p.liveLink} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        whileHover={{ scale: 1.08, boxShadow: '0 8px 16px rgba(79, 70, 229, 0.4)' }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        🌐 Live
+                      </motion.a>
+                    )}
+                    {p.githubLink && (
+                      <motion.a 
+                        className="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white font-semibold rounded-lg text-sm hover:shadow-lg transition-all" 
+                        href={p.githubLink} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        whileHover={{ scale: 1.08, boxShadow: '0 8px 16px rgba(79, 70, 229, 0.3)' }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        ⭐ GitHub
+                      </motion.a>
+                    )}
+                  </motion.div>
+                </div>
               </motion.div>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </motion.div>
       )}
