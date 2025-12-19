@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { 
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+}
+
+html { 
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body { 
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Animated background gradient */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f8fafc 50%,
+    #ffffff 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease-in-out infinite;
+}
+
+html.dark body {
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e293b 50%,
+    #0f172a 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease-in-out infinite;
+}
+
+.container { @apply max-w-6xl mx-auto px-4; }
+.section { @apply py-16; }
+.title { @apply text-4xl font-bold mb-8 text-center bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent; }
+.card { 
+  @apply rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-800/90 backdrop-blur-sm;
+  position: relative;
+}
+
+html.dark .card {
+  background: rgba(31, 41, 55, 0.9);
+  border-color: rgba(75, 85, 99, 0.5);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.btn { 
+  @apply inline-flex items-center gap-2 rounded-lg px-4 py-3 bg-gradient-to-r from-brand to-brand-dark text-white font-medium hover:shadow-lg active:scale-95 transition-all duration-200;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.btn:hover::before {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+.link { @apply text-brand hover:text-brand-dark font-medium transition-colors; }
+
+input, textarea {
+  @apply transition-all duration-200 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+}
+
+input:focus, textarea:focus {
+  @apply ring-2 ring-brand/30;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: rgba(156, 163, 175, 0.6);
+}
+
+/* Glow effect for interactive elements */
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
+  }
+}
+
+.group:hover .card {
+  animation: glow 2s ease-in-out;
+}
