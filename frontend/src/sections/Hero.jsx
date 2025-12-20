@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import ImageRotator from '../components/ImageRotator';
 import { useEffect, useState } from 'react';
 import ScrollReveal from '../components/ScrollReveal';
 import FloatingBlob from '../components/FloatingBlob';
@@ -16,6 +17,14 @@ const container = {
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 
 export default function Hero() {
+  const photos = [
+    '/temp/my photo1.jpg',
+    '/temp/my photo2.jpg',
+    '/temp/my photo3.jpg',
+    '/temp/my photo4.jpg',
+    '/temp/my photo5.jpg',
+    '/temp/my photo6.jpg',
+  ];
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -98,7 +107,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div 
-            className="hidden lg:block flex-1 flex justify-center relative"
+            className="hidden lg:flex flex-1 justify-center relative"
             initial={{ scale: 0.8, opacity: 0, x: 50 }}
             animate={{ scale: 1, opacity: 1, x: 0 }}
             transition={{ duration: 0.8, type: 'spring', stiffness: 100 }}
@@ -114,12 +123,11 @@ export default function Hero() {
               }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <motion.img 
-                src="/temp/my photo.jpg" 
-                alt="Chandan Mishra" 
-                className="w-full h-full object-cover"
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 4, repeat: Infinity }}
+              <ImageRotator 
+                images={photos}
+                interval={3000}
+                imgClassName="w-full h-full object-cover"
+                alt="Chandan Mishra"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent" />
             </motion.div>

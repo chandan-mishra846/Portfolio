@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import AnimatedCounter from '../components/AnimatedCounter.jsx';
 import ScrollReveal from '../components/ScrollReveal';
+import ImageRotator from '../components/ImageRotator';
 
 export default function About() {
   return (
@@ -93,12 +94,11 @@ export default function About() {
               }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <motion.img 
-                className="w-full h-80 object-cover"
-                src="/temp/my photo.jpg" 
-                alt="Profile" 
-                animate={{ scale: [1, 1.08, 1] }}
-                transition={{ duration: 4, repeat: Infinity }}
+              <ImageRotator 
+                images={[ '/temp/my photo1.jpg', '/temp/my photo2.jpg', '/temp/my photo3.jpg', '/temp/my photo4.jpg', '/temp/my photo5.jpg', '/temp/my photo6.jpg' ]}
+                interval={3000}
+                imgClassName="w-full h-80 object-cover"
+                alt="Profile"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </motion.div>

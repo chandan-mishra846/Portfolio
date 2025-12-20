@@ -145,8 +145,6 @@ export default function Contact() {
           </AnimatePresence>
         </div>
       </motion.form>
-        </AnimatePresence>
-      </motion.form>
     </section>
   );
 }

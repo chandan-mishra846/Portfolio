@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="section container border-t border-gray-200 dark:border-gray-800">
       <div className="grid md:grid-cols-3 gap-8 mb-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h3 className="font-bold text-lg mb-3">Your Name</h3>
+          <h3 className="font-bold text-lg mb-3">Chandan Mishra</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">Building beautiful, performant web experiences.</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
@@ -46,7 +46,21 @@ export default function Footer() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}>
-        <div>© {new Date().getFullYear()} Your Name. All rights reserved.</div>
+        <div>© {new Date().getFullYear()} Chandan Mishra
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          . All rights reserved.</div>
         <motion.a href="/resume.pdf" download className="hover:text-brand font-medium transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}>
