@@ -88,6 +88,40 @@ export default function Hero() {
               </motion.a>
             </motion.div>
 
+            {/* Profile Links */}
+            <motion.div className="mt-6 flex gap-3 flex-wrap" variants={item}>
+              <motion.a 
+                href="https://leetcode.com/u/chandan_mishra846/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>🏆</span> LeetCode
+              </motion.a>
+              <motion.a 
+                href="https://www.codechef.com/users/many_door_65" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>⭐</span> CodeChef (3★)
+              </motion.a>
+              <motion.a 
+                href="https://github.com/yourusername" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>💻</span> GitHub
+              </motion.a>
+            </motion.div>
+
             {/* Scroll Indicator */}
             <motion.div
               className="mt-12"

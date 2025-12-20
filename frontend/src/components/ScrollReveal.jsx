@@ -13,7 +13,8 @@ export default function ScrollReveal({ children, direction = 'up', delay = 0 }) 
     <motion.div
       initial={directionVariants[direction]}
       whileInView={{ x: 0, y: 0, opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
+      // Allow re-trigger when content changes or filters toggle
+      viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.8, delay, ease: 'easeOut' }}
     >
       {children}

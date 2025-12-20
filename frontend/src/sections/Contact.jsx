@@ -123,26 +123,31 @@ export default function Contact() {
             )}
           </motion.button>
 
-          <AnimatePresence>
-            {status === 'sent' && (
-              <motion.div 
-                className="text-green-600 dark:text-green-400 font-bold text-center py-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800"
-                initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.9 }}>
-                ✓ Message sent successfully!
-              </motion.div>
-            )}
-            {status === 'error' && (
-              <motion.div 
-                className="text-red-600 dark:text-red-400 font-bold text-center py-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800"
-                initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.9 }}>
-                ✗ Something went wrong.
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Status messages */}
+          <div className="mt-4">
+            <AnimatePresence mode="popLayout">
+              {status === 'sent' && (
+                <motion.div
+                  className="text-green-600 dark:text-green-400 font-bold text-center py-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800"
+                  initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                >
+                  ✓ Message sent successfully!
+                </motion.div>
+              )}
+              {status === 'error' && (
+                <motion.div
+                  className="text-red-600 dark:text-red-400 font-bold text-center py-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800"
+                  initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                >
+                  ✗ Something went wrong.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </motion.form>
     </section>

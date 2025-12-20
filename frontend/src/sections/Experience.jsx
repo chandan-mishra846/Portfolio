@@ -2,9 +2,30 @@ import { motion } from 'framer-motion';
 import ScrollReveal from '../components/ScrollReveal';
 
 const items = [
-  { title: 'Senior Full Stack Developer', place: 'Tech Corp', time: '2023 - Present', desc: 'Leading complete architecture design, backend optimization, and database management for enterprise solutions.' },
-  { title: 'Frontend Engineer', place: 'Startup Inc.', time: '2021 - 2023', desc: 'Built reactive dashboards, optimized performance, and crafted pixel-perfect responsive interfaces.' },
-  { title: 'B.Sc. Computer Science', place: 'University', time: '2017 - 2021', desc: 'Graduated with honors. Specialized in modern web technologies and human-centered design principles.' }
+  { 
+    title: 'B.Tech in Computer Science and Engineering', 
+    place: 'IIIT Vadodara', 
+    time: '2023 - Present', 
+    desc: 'Current CPI: 7.7 | Specializing in Data Structures, Algorithms, and Full Stack Development. Active in competitive programming with 234 problems solved on LeetCode.'
+  },
+  { 
+    title: 'JEE Mains 2023', 
+    place: 'NTA', 
+    time: '2023', 
+    desc: '97.4 Percentile | Secured admission to Indian Institute of Information Technology, Vadodara through JoSAA counseling.'
+  },
+  { 
+    title: 'Class XII (Intermediate)', 
+    place: 'Sita Bal Vidya Mandir Inter College', 
+    time: '2021', 
+    desc: '88% | UP Board | Focused on Physics, Chemistry, and Mathematics with strong analytical and problem-solving skills.'
+  },
+  { 
+    title: 'Class X (High School)', 
+    place: 'Sita Bal Vidya Mandir Inter College', 
+    time: '2019', 
+    desc: '82.5% | UP Board | Built strong foundation in Mathematics, Science, and Computer Applications.'
+  }
 ];
 
 const containerVariants = {

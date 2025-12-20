@@ -23,7 +23,7 @@ export default function About() {
             
             <div className="relative z-10">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-                Passionate full-stack developer transforming ideas into beautiful, high-performance digital experiences. I specialize in modern web technologies and love crafting seamless user interfaces paired with robust backend solutions.
+                B.Tech student at IIIT Vadodara with a passion for building scalable web applications and solving complex algorithmic problems. Scored 97.4 percentile in JEE Mains 2023 and currently maintaining 7.7 CPI. Actively solving problems on LeetCode (234+ solved, 1732 rating) and CodeChef (3★, 1622 rating). Specialized in MERN stack development, DSA, and competitive programming.
               </p>
               
               {/* Stats Grid */}
@@ -37,9 +37,9 @@ export default function About() {
                   whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
                 >
                   <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
-                    <AnimatedCounter end={3} />
+                    234
                   </div>
-                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Years Exp</div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">LeetCode</div>
                 </motion.div>
                 
                 <motion.div 
@@ -51,9 +51,9 @@ export default function About() {
                   whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
                 >
                   <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
-                    <AnimatedCounter end={20} />
+                    97.4
                   </div>
-                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Projects</div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">JEE %ile</div>
                 </motion.div>
                 
                 <motion.div 
@@ -65,9 +65,9 @@ export default function About() {
                   whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(79, 70, 229, 0.15)' }}
                 >
                   <div className="text-4xl font-black bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-brand transition-all">
-                    <AnimatedCounter end={5} />
+                    7.7
                   </div>
-                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">Certifications</div>
+                  <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mt-2 uppercase tracking-wide">CPI</div>
                 </motion.div>
               </div>
             </div>

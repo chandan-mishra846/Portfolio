@@ -87,10 +87,9 @@ export default function Projects() {
                           boxShadow: '0 0 12px rgba(79, 70, 229, 0.5)',
                           background: 'linear-gradient(to right, rgba(79, 70, 229, 0.2), rgba(34, 211, 238, 0.2))'
                         }}
-                        transition={{ duration: 0.2 }}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: tidx * 0.05 }}
+                        transition={{ duration: 0.2, delay: tidx * 0.05 }}
                         viewport={{ once: true }}
                       >
                         {t}
