@@ -16,7 +16,7 @@ export const createContact = async (req, res) => {
     const saved = await Contact.create(value);
 
     // Email notification
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 587),
       secure: Boolean(process.env.SMTP_SECURE === 'true'),
