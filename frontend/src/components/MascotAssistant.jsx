@@ -11,9 +11,11 @@ export default function MascotAssistant() {
   const [message, setMessage] = useState("Namaste! I'm your guide! Hover over anything to learn more!");
   const [isGone, setIsGone] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   
   const voicesRef = useRef(null);
   const clickCount = useRef(0);
+  const hasWelcomed = useRef(false);
 
   // 1. Voice Setup with Indian Accent
   const loadVoices = useCallback(() => {
@@ -28,6 +30,22 @@ export default function MascotAssistant() {
   useEffect(() => {
     window.speechSynthesis.onvoiceschanged = loadVoices;
     loadVoices();
+    
+    // Welcome message on page load
+    if (!hasWelcomed.current) {
+      hasWelcomed.current = true;
+      setTimeout(() => {
+        const welcomeMessages = [
+          "Oohoo! Someone came to visit the portfolio! Welcome!",
+          "Namaste! I'm so happy you're here! Let's explore together!",
+          "Welcome welcome welcome! Ready to see some amazing work?",
+          "Heyy! Great to see you here! I'm your guide, let's get started!"
+        ];
+        const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+        setMood('happy');
+        speak(randomWelcome, 'happy');
+      }, 500);
+    }
   }, [loadVoices]);
 
   const speak = useCallback((text, currentMood = 'happy') => {
@@ -210,6 +228,20 @@ export default function MascotAssistant() {
     };
   }, [isGone, speak]);
 
+  const handleReturn = () => {
+    setIsGone(false);
+    clickCount.current = 0;
+    setMood('blushing');
+    const comebackMessages = [
+      "Aa gye na meri yaad! I knew you'd miss me! 😊",
+      "Aa gye na! I was waiting for you to bring me back!",
+      "Dekho, aa hi gye! I'm so happy you wanted me back!",
+      "Arre, aa gye finally! Meri yaad aayi na? 🥰"
+    ];
+    const randomMessage = comebackMessages[Math.floor(Math.random() * comebackMessages.length)];
+    speak(randomMessage, 'blushing');
+  };
+
   // Click behavior
   const handleMascotClick = (e) => {
     e.stopPropagation();
@@ -220,6 +252,7 @@ export default function MascotAssistant() {
       setMood('angry');
       speak("Bas! That's enough poking! I'm leaving now. Bye bye!", 'angry');
       setTimeout(() => setIsGone(true), 1500);
+
     } else if (clickCount.current >= 4) {
       setMood('angry');
       const angryMessages = [
@@ -261,8 +294,19 @@ export default function MascotAssistant() {
     };
   }, [isGone]);
 
+  if (isDisabled) return (
+    <motion.button 
+      onClick={() => { setIsDisabled(false); handleReturn(); }} 
+      className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700 transition-all"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      👋 ENABLE GUIDE
+    </motion.button>
+  );
+
   if (isGone) return (
-    <button onClick={() => { setIsGone(false); clickCount.current = 0; setMood('happy'); speak("I'm back to help! Hover on anything to learn more!"); }} className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700">
+    <button onClick={handleReturn} className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700">
       🔙 BRING BACK YOUR GUIDE
     </button>
   );
@@ -273,13 +317,14 @@ export default function MascotAssistant() {
       animate={{ left: targetPos.x ?? 'auto', top: targetPos.y ?? 'auto', right: targetPos.x === null ? 24 : 'auto', bottom: targetPos.y === null ? 96 : 'auto' }}
       transition={{ type: 'spring', stiffness: 60, damping: 15 }}
       onAnimationComplete={() => setIsWalking(false)} 
+      style={{ filter: 'drop-shadow(0 10px 30px rgba(251, 146, 60, 0.4)) drop-shadow(0 0 15px rgba(251, 146, 60, 0.3))' }}
     >
       <div className="flex flex-col items-center pointer-events-auto no-move relative mascot-body">
         <AnimatePresence>
           {isOpen && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              className={`mb-6 p-3 border-2 bg-black/90 rounded-xl font-mono text-[10px] shadow-lg transition-all 
-                ${mood === 'angry' ? 'border-red-500 text-red-400' : mood === 'blushing' ? 'border-pink-400 text-pink-300' : 'border-orange-500 text-orange-400'}`}
+              className={`mb-6 p-3 border-2 bg-black/90 rounded-xl font-mono text-[10px] shadow-2xl transition-all 
+                ${mood === 'angry' ? 'border-red-500 text-red-400 shadow-red-500/50' : mood === 'blushing' ? 'border-pink-400 text-pink-300 shadow-pink-400/50' : 'border-orange-500 text-orange-400 shadow-orange-500/50'}`}
             >
               "{message}"
             </motion.div>
@@ -290,6 +335,7 @@ export default function MascotAssistant() {
           <motion.div className="w-24 h-24 relative flex items-center justify-center rounded-full"
             animate={{ rotate: isWalking ? [0, -10, 10, 0] : 0, y: isWalking ? [0, -15, 0] : [0, -3, 0] }}
             transition={{ duration: 0.4, repeat: isWalking ? Infinity : 0 }}
+            style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))' }}
           >
             <svg viewBox="0 0 100 140" className="w-full h-full overflow-visible fill-none stroke-black stroke-[3]">
               <motion.circle cx="50" cy="50" r="46" animate={{ fill: mood === 'angry' ? '#ef4444' : mood === 'blushing' ? '#fda4af' : '#fb923c' }} stroke="#000" strokeWidth="3" />
@@ -319,6 +365,17 @@ export default function MascotAssistant() {
             </svg>
           </motion.div>
         </div>
+
+        {/* Disable Button */}
+        <motion.button
+          onClick={() => setIsDisabled(true)}
+          className="mt-2 px-2 py-1 bg-gray-800 text-white rounded-md text-[8px] font-bold hover:bg-red-600 transition-all"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          title="Hide Miss Minutes"
+        >
+          ✕ DISABLE
+        </motion.button>
       </div>
     </motion.div>
   );
