@@ -1,0 +1,325 @@
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback, useRef } from 'react';
+
+export default function MascotAssistant() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isWalking, setIsWalking] = useState(false);
+  const [mood, setMood] = useState('happy'); 
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [targetPos, setTargetPos] = useState({ x: null, y: null });
+  const [message, setMessage] = useState("Namaste! I'm your guide! Hover over anything to learn more!");
+  const [isGone, setIsGone] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  
+  const voicesRef = useRef(null);
+  const clickCount = useRef(0);
+
+  // 1. Voice Setup with Indian Accent
+  const loadVoices = useCallback(() => {
+    const availableVoices = window.speechSynthesis.getVoices();
+    const indianVoice = availableVoices.find(v => 
+      (v.lang.includes('en-IN') || v.lang.includes('hi-IN')) && 
+      (v.name.includes('Female') || v.name.includes('Google') || v.name.includes('Heera'))
+    );
+    voicesRef.current = indianVoice || availableVoices[0];
+  }, []);
+
+  useEffect(() => {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+  }, [loadVoices]);
+
+  const speak = useCallback((text, currentMood = 'happy') => {
+    if (!window.speechSynthesis || isGone) return;
+    
+    // IMPORTANT: Cancel any ongoing speech immediately
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (voicesRef.current) utterance.voice = voicesRef.current;
+    
+    utterance.pitch = currentMood === 'angry' ? 0.8 : currentMood === 'blushing' ? 2.2 : 1.8; 
+    utterance.onstart = () => { setIsSpeaking(true); setIsOpen(true); };
+    utterance.onend = () => setIsSpeaking(false);
+    
+    window.speechSynthesis.speak(utterance);
+    setMessage(text);
+  }, [isGone]);
+
+  // 2. SMART INTERACTIONS: Projects, Buttons, etc.
+  useEffect(() => {
+    // Project card HOVER (not click)
+    const handleProjectHover = (e) => {
+      if (isGone) return;
+      const projectCard = e.target.closest('[data-project-title]');
+      if (projectCard) {
+        setHasInteracted(true);
+        const title = projectCard.getAttribute('data-project-title');
+        const desc = projectCard.getAttribute('data-project-desc');
+        setMood('blushing');
+        const messages = [
+          `Wow! ${title}! ${desc.substring(0, 70)}... Dekho the tech stack below!`,
+          `${title} is really cool! ${desc.substring(0, 70)}... Check out the live demo!`,
+          `Oho! This project - ${title}! Amazing work here. Want to see it live?`
+        ];
+        speak(messages[Math.floor(Math.random() * messages.length)], 'blushing');
+      }
+    };
+
+    // About section hover
+    const handleAboutHover = (e) => {
+      if (isGone) return;
+      const aboutSection = e.target.closest('[data-about-section]');
+      if (aboutSection) {
+        setHasInteracted(true);
+        setMood('happy');
+        const messages = [
+          "Let me tell you about him! IIIT Vadodara student, 234 LeetCode problems crushed, 97.4 percentile in JEE! Bahut smart hai!",
+          "This section has all the juicy details! B.Tech student with serious coding skills. Look at those stats!",
+          "About section! He's from IIIT Vadodara, loves solving problems, and has amazing JEE percentile. Very impressive!"
+        ];
+        speak(messages[Math.floor(Math.random() * messages.length)], 'happy');
+      }
+    };
+
+    // Education/Experience hovers
+    const handleEducationHover = (e) => {
+      if (isGone) return;
+      const eduItem = e.target.closest('[data-education-title]');
+      if (eduItem) {
+        setHasInteracted(true);
+        const title = eduItem.getAttribute('data-education-title');
+        const place = eduItem.getAttribute('data-education-place');
+        setMood('happy');
+        const messages = [
+          `${title} from ${place}! This is a key milestone in his journey!`,
+          `Arre wah! ${place} - ${title}! Education bhi bohot achha hai!`,
+          `Check this out - ${title} at ${place}! Such an impressive background!`
+        ];
+        speak(messages[Math.floor(Math.random() * messages.length)], 'happy');
+      }
+    };
+
+    // Hire Me / Contact button hovers
+    const handleButtonHover = (e) => {
+      if (isGone) return;
+      const btn = e.target.closest('[data-mascot-trigger]');
+      if (btn) {
+        setHasInteracted(true);
+        const trigger = btn.getAttribute('data-mascot-trigger');
+        
+        const messages = {
+          'hire': { mood: 'blushing', texts: [
+            "Ohhh! Ready to hire? That's wonderful! Just scroll down and fill the contact form below!",
+            "You want to work with him? Smart choice! The contact form is waiting for you!",
+            "Hire karna chahte ho? Perfect! Fill the form and let's make it happen!"
+          ]},
+          'contact': { mood: 'happy', texts: [
+            "Ready to connect? Fill in your details and he'll get back super quick!",
+            "Contact form time! Share your details and start the conversation!",
+            "Let's connect! Fill this form and he'll reply faster than you can say 'JavaScript'!"
+          ]},
+          'viewwork': { mood: 'happy', texts: [
+            "Curious about his projects? Scroll down to see the amazing work!",
+            "Want to see what he's built? Projects section is just below!",
+            "Ready to explore his portfolio? Scroll down for some cool projects!"
+          ]},
+          'github': { mood: 'happy', texts: [
+            "GitHub! Where all the magic code lives! Click to explore his repositories!",
+            "Checking out the code? Very smart! His GitHub has tons of projects!",
+            "Code enthusiast? His GitHub profile is waiting for you!"
+          ]},
+          'linkedin': { mood: 'happy', texts: [
+            "LinkedIn pe connect karna? Professional networking ka best platform!",
+            "Professional connection time! LinkedIn is the place to be!",
+            "Want to connect professionally? LinkedIn is calling!"
+          ]},
+          'leetcode': { mood: 'happy', texts: [
+            "LeetCode warrior! 234 problems solved! He's a problem-solving machine!",
+            "LeetCode profile! Iska rating dekho - 1732! Very impressive!",
+            "234 problems solved on LeetCode! That's serious dedication!"
+          ]},
+          'codechef': { mood: 'blushing', texts: [
+            "CodeChef 3 star! 1622 rating! Competitive programming master hai ye!",
+            "3 stars on CodeChef! Very impressive competitive programming skills!",
+            "CodeChef! Where he proves his algorithmic prowess!"
+          ]},
+          'twitter': { mood: 'happy', texts: [
+            "Twitter pe milte hain! Follow for tech updates and insights!",
+            "Social butterfly mode! Click to follow on Twitter!",
+            "Stay updated! His Twitter has all the latest thoughts!"
+          ]},
+          'email': { mood: 'happy', texts: [
+            "Direct email? Old school but professional! Click to send!",
+            "Email karna hai? Classic communication method!",
+            "Professional email contact! Click to reach out directly!"
+          ]},
+          'live': { mood: 'blushing', texts: [
+            "Live demo dekho! See the project in action!",
+            "Want to test it yourself? Live version is just a click away!",
+            "Click to see this project running live! It's amazing!"
+          ]},
+          'projectgithub': { mood: 'happy', texts: [
+            "Source code time! Dive into the implementation details!",
+            "GitHub repository! See how it's built from scratch!",
+            "Want to see the code? Click to explore the repository!"
+          ]}
+        };
+        
+        const msg = messages[trigger];
+        if (msg) {
+          const randomText = msg.texts[Math.floor(Math.random() * msg.texts.length)];
+          setMood(msg.mood);
+          speak(randomText, msg.mood);
+        }
+      }
+    };
+
+    // Skills section hover
+    const handleSkillHover = (e) => {
+      if (isGone) return;
+      const skill = e.target.closest('[data-skill-name]');
+      if (skill) {
+        setHasInteracted(true);
+        const skillName = skill.getAttribute('data-skill-name');
+        setMood('happy');
+        const messages = [
+          `${skillName}! He's really good with this technology!`,
+          `${skillName} expert here! Check that proficiency level!`,
+          `Wow, ${skillName}! He's been mastering this one!`,
+          `${skillName}! This skill is in his toolkit!`
+        ];
+        speak(messages[Math.floor(Math.random() * messages.length)], 'happy');
+      }
+    };
+
+    window.addEventListener('mouseover', handleProjectHover);
+    window.addEventListener('mouseover', handleButtonHover);
+    window.addEventListener('mouseover', handleSkillHover);
+    window.addEventListener('mouseover', handleEducationHover);
+    window.addEventListener('mouseover', handleAboutHover);
+    
+    return () => {
+      window.removeEventListener('mouseover', handleProjectHover);
+      window.removeEventListener('mouseover', handleButtonHover);
+      window.removeEventListener('mouseover', handleSkillHover);
+      window.removeEventListener('mouseover', handleEducationHover);
+      window.removeEventListener('mouseover', handleAboutHover);
+    };
+  }, [isGone, speak]);
+
+  // Click behavior
+  const handleMascotClick = (e) => {
+    e.stopPropagation();
+    setHasInteracted(true);
+    clickCount.current += 1;
+
+    if (clickCount.current >= 8) {
+      setMood('angry');
+      speak("Bas! That's enough poking! I'm leaving now. Bye bye!", 'angry');
+      setTimeout(() => setIsGone(true), 1500);
+    } else if (clickCount.current >= 4) {
+      setMood('angry');
+      const angryMessages = [
+        "Arre, stop poking me! I'm trying to help you!",
+        "Behave yourself! I'm your guide, not a toy!",
+        "Chalo, enough clicks! Focus on the portfolio instead!"
+      ];
+      speak(angryMessages[Math.floor(Math.random() * angryMessages.length)], 'angry');
+    } else {
+      setMood('surprised');
+      const surprisedMessages = [
+        "Oye! What are you doing? Hover on things to learn!",
+        "Hehe! That tickles! But hover on the content instead!",
+        "Arre! Click on the buttons and links, not on me!"
+      ];
+      speak(surprisedMessages[Math.floor(Math.random() * surprisedMessages.length)]);
+    }
+  };
+
+  // Eyes tracking
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ 
+        x: (e.clientX / window.innerWidth - 0.5) * 12, 
+        y: (e.clientY / window.innerHeight - 0.5) * 15 
+      });
+    };
+    const handleGlobalClick = (e) => {
+      if (e.target.closest('.mascot-body') || isGone) return;
+      setHasInteracted(true);
+      setIsWalking(true); 
+      setTargetPos({ x: e.clientX - 56, y: e.clientY - 120 });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleGlobalClick);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleGlobalClick);
+    };
+  }, [isGone]);
+
+  if (isGone) return (
+    <button onClick={() => { setIsGone(false); clickCount.current = 0; setMood('happy'); speak("I'm back to help! Hover on anything to learn more!"); }} className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700">
+      🔙 BRING BACK YOUR GUIDE
+    </button>
+  );
+
+  return (
+    <motion.div 
+      className="fixed z-[9999] pointer-events-none"
+      animate={{ left: targetPos.x ?? 'auto', top: targetPos.y ?? 'auto', right: targetPos.x === null ? 24 : 'auto', bottom: targetPos.y === null ? 96 : 'auto' }}
+      transition={{ type: 'spring', stiffness: 60, damping: 15 }}
+      onAnimationComplete={() => setIsWalking(false)} 
+    >
+      <div className="flex flex-col items-center pointer-events-auto no-move relative mascot-body">
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              className={`mb-6 p-3 border-2 bg-black/90 rounded-xl font-mono text-[10px] shadow-lg transition-all 
+                ${mood === 'angry' ? 'border-red-500 text-red-400' : mood === 'blushing' ? 'border-pink-400 text-pink-300' : 'border-orange-500 text-orange-400'}`}
+            >
+              "{message}"
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div onClick={handleMascotClick}>
+          <motion.div className="w-24 h-24 relative flex items-center justify-center rounded-full"
+            animate={{ rotate: isWalking ? [0, -10, 10, 0] : 0, y: isWalking ? [0, -15, 0] : [0, -3, 0] }}
+            transition={{ duration: 0.4, repeat: isWalking ? Infinity : 0 }}
+          >
+            <svg viewBox="0 0 100 140" className="w-full h-full overflow-visible fill-none stroke-black stroke-[3]">
+              <motion.circle cx="50" cy="50" r="46" animate={{ fill: mood === 'angry' ? '#ef4444' : mood === 'blushing' ? '#fda4af' : '#fb923c' }} stroke="#000" strokeWidth="3" />
+              <g transform="translate(35, 42)">
+                 <ellipse cx="0" cy="0" rx="9" ry="14" fill="white" stroke="black" />
+                 <motion.circle r="4.5" fill="black" animate={{ cx: mousePos.x, cy: mousePos.y }} />
+                 <motion.circle cx="-8" cy="15" r="5" fill="#f472b6" animate={{ opacity: mood === 'blushing' ? 0.6 : 0 }} />
+              </g>
+              <g transform="translate(65, 42)">
+                 <ellipse cx="0" cy="0" rx="9" ry="14" fill="white" stroke="black" />
+                 <motion.circle r="4.5" fill="black" animate={{ cx: mousePos.x, cy: mousePos.y }} />
+                 <motion.circle cx="8" cy="15" r="5" fill="#f472b6" animate={{ opacity: mood === 'blushing' ? 0.6 : 0 }} />
+              </g>
+              <motion.path 
+                d={mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z"} 
+                fill="white" stroke="black" strokeWidth="2.5" 
+                animate={isSpeaking ? { scaleY: [1, 1.7, 1], transition: { repeat: Infinity, duration: 0.2 } } : { scaleY: 1 }}
+              />
+              <g stroke="black" strokeWidth="3.5" fill="none">
+                <motion.g animate={isWalking ? { rotate: [-35, 35, -35] } : { rotate: 0 }} style={{ originY: "92px", originX: "42px" }} transition={{ repeat: Infinity, duration: 0.5 }}>
+                  <path d="M 42 92 L 42 120" strokeLinecap="round" /> <rect x="34" y="118" width="14" height="8" rx="4" fill="#000" />
+                </motion.g>
+                <motion.g animate={isWalking ? { rotate: [35, -35, 35] } : { rotate: 0 }} transition={{ repeat: Infinity, duration: 0.5, delay: 0.25 }} style={{ originY: "92px", originX: "58px" }}>
+                  <path d="M 58 92 L 58 120" strokeLinecap="round" /> <rect x="52" y="118" width="14" height="8" rx="4" fill="#000" />
+                </motion.g>
+              </g>
+            </svg>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}

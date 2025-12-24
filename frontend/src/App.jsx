@@ -6,6 +6,7 @@ import MobileMenu from './components/MobileMenu.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import ThemeToggle from './components/ThemeToggle.jsx';
+import MascotAssistant from './components/MascotAssistant.jsx'; // Import the new component
 import Hero from './sections/Hero.jsx';
 import About from './sections/About.jsx';
 import Skills from './sections/Skills.jsx';
@@ -37,6 +38,7 @@ export default function App() {
       <BackToTop />
       <ThemeToggle />
       <MobileMenu />
+      <MascotAssistant /> {/* Place it here so it stays on top of all sections */}
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8, duration: 0.5 }}>
         <nav className="sticky top-0 backdrop-blur bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 z-30">

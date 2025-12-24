@@ -67,14 +67,14 @@ async function run() {
     ]);
 
     await Skill.insertMany([
-      { name: 'JavaScript', icon: '', proficiency: 90 },
-      { name: 'React.js', icon: '', proficiency: 85 },
-      { name: 'Node.js', icon: '', proficiency: 80 },
-      { name: 'Express.js', icon: '', proficiency: 80 },
-      { name: 'MongoDB', icon: '', proficiency: 75 },
-      { name: 'Tailwind CSS', icon: '', proficiency: 85 },
-      { name: 'TypeScript', icon: '', proficiency: 70 },
-      { name: 'HTML & CSS', icon: '', proficiency: 90 }
+      { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', proficiency: 90 },
+      { name: 'React.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg', proficiency: 85 },
+      { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', proficiency: 80 },
+      { name: 'Express.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg', proficiency: 80 },
+      { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg', proficiency: 75 },
+      { name: 'Tailwind CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg', proficiency: 85 },
+      { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg', proficiency: 70 },
+      { name: 'HTML & CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg', proficiency: 90 }
     ]);
 
     await Testimonial.insertMany([

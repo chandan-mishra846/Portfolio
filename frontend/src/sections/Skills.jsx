@@ -104,6 +104,7 @@ export default function Skills() {
                 animate="show"
                 exit="exit"
                 layout
+                data-skill-name={s.name}
                 whileHover={{ y: -6, scale: 1.01 }}
               >
                 {/* Glow background on hover */}

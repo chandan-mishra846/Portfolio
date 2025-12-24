@@ -76,6 +76,8 @@ export default function Experience() {
             <ScrollReveal key={idx} direction="right" delay={idx * 0.1}>
               <motion.li className="card card-hover relative group overflow-hidden"
                 variants={itemVariants}
+                data-education-title={it.title}
+                data-education-place={it.place}
                 whileHover={{ x: 8, y: -4 }}>
                 
                 {/* Card glow effect */}

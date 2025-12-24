@@ -27,7 +27,9 @@ export default function Footer() {
           <h3 className="font-bold text-lg mb-3">Connect</h3>
           <div className="flex gap-3">
             {socials.map((s, i) => (
-              <motion.a key={s.name} href={s.link} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-brand hover:text-white transition-colors"
+              <motion.a key={s.name} href={s.link} target="_blank" rel="noreferrer" 
+                className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-brand hover:text-white transition-colors"
+                data-mascot-trigger={s.name.toLowerCase()}
                 whileHover={{ scale: 1.15, rotate: 10 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, scale: 0 }}

@@ -16,7 +16,8 @@ export default function About() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
-            viewport={{ once: true }}>
+            viewport={{ once: true }}
+            data-about-section="true">
             
             {/* Card background glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-cyan-400/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl" />

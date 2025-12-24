@@ -114,6 +114,7 @@ export default function Contact() {
             type="submit" 
             disabled={status === 'sending'}
             variants={fieldVariants}
+            data-mascot-trigger="contact"
             whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(79, 70, 229, 0.3)' }}
             whileTap={{ scale: 0.95 }}>
             {status === 'sending' ? (

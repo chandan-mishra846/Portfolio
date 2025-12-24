@@ -51,7 +51,9 @@ export default function Projects() {
             <ScrollReveal key={p._id} direction="up" delay={idx * 0.1}>
               <motion.div className="card card-hover group overflow-hidden relative"
                 variants={itemVariants}
-                whileHover={{ y: -12, transition: { duration: 0.3 } }}>
+                whileHover={{ y: -12, transition: { duration: 0.3 } }}
+                data-project-title={p.title}
+                data-project-desc={p.description}>
                 
                 {/* Card glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-brand/0 to-cyan-400/0 group-hover:from-brand/10 group-hover:to-cyan-400/10 transition-all duration-300 rounded-xl" />
@@ -107,6 +109,7 @@ export default function Projects() {
                         href={p.liveLink} 
                         target="_blank" 
                         rel="noreferrer"
+                        data-mascot-trigger="live"
                         whileHover={{ scale: 1.08, boxShadow: '0 8px 16px rgba(79, 70, 229, 0.4)' }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -119,6 +122,7 @@ export default function Projects() {
                         href={p.githubLink} 
                         target="_blank" 
                         rel="noreferrer"
+                        data-mascot-trigger="projectgithub"
                         whileHover={{ scale: 1.08, boxShadow: '0 8px 16px rgba(79, 70, 229, 0.3)' }}
                         whileTap={{ scale: 0.95 }}
                       >

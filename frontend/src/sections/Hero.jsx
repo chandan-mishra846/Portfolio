@@ -73,6 +73,7 @@ export default function Hero() {
               <motion.a 
                 className="btn hover:scale-105 transition-transform card-hover" 
                 href="#contact"
+                data-mascot-trigger="hire"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -81,6 +82,7 @@ export default function Hero() {
               <motion.a 
                 className="btn bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 hover:scale-105 transition-transform card-hover" 
                 href="#projects"
+                data-mascot-trigger="viewwork"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -94,8 +96,7 @@ export default function Hero() {
                 href="https://leetcode.com/u/chandan_mishra846/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
-                whileHover={{ scale: 1.05, y: -2 }}
+                className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"                data-mascot-trigger="leetcode"                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span>🏆</span> LeetCode
@@ -105,6 +106,7 @@ export default function Hero() {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                data-mascot-trigger="codechef"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -115,6 +117,7 @@ export default function Hero() {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                data-mascot-trigger="github"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >

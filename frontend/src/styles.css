@@ -133,6 +133,7 @@ html.dark textarea::placeholder {
 .group:hover .card {
   animation: glow 2s ease-in-out;
 }
+
 /* Enhanced animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px) translateX(0px); }
@@ -240,4 +241,43 @@ html.dark .glow-text {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradient-text 3s linear infinite;
+}
+
+/* =========================================
+   Mascot Effects (Miss Minutes Style)
+   ========================================= */
+
+@keyframes mascot-glitch {
+  0% { transform: translate(0); text-shadow: none; }
+  20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
+  40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
+  60% { transform: translate(2px, 2px); text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
+  80% { transform: translate(2px, -2px); text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
+  100% { transform: translate(0); text-shadow: none; }
+}
+
+.mascot-assistant {
+  animation: float 5s ease-in-out infinite;
+  transition: filter 0.3s ease;
+}
+
+.mascot-assistant:hover {
+  animation: mascot-glitch 0.2s cubic-bezier(.25,.46,.45,.94) both infinite;
+  filter: brightness(1.2) contrast(1.1);
+}
+
+/* Specialized glow for the assistant container */
+.mascot-container {
+  @apply relative rounded-full overflow-hidden border-2 border-brand/30 shadow-lg;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.2) 0%, transparent 70%);
+}
+
+/* MascotAssistant.jsx ke liye orange theme */
+.mascot-orange-glow {
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.4), 0 0 30px rgba(251, 146, 60, 0.2);
+}
+
+/* AI ki smooth movement ke liye backdrop */
+.card {
+  @apply rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm bg-white dark:bg-gray-800/90 backdrop-blur-sm;
 }
