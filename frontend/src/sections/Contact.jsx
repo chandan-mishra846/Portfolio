@@ -20,6 +20,7 @@ const fieldVariants = {
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null);
+  const [errorMsg, setErrorMsg] = useState('');
   const [focused, setFocused] = useState(null);
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -28,12 +29,20 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
     try {
-      await axios.post(`${api}/api/contact`, form);
+      const trimmedForm = {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim()
+      };
+      await axios.post(`${api}/api/contact`, trimmedForm);
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
+      setErrorMsg('');
       setTimeout(() => setStatus(null), 3000);
     } catch (err) {
       setStatus('error');
+      setErrorMsg(err.response?.data?.error || 'Failed to send message. Please try again.');
+      console.error('Contact error:', err);
     }
   }
 
@@ -144,7 +153,7 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.9 }}
                 >
-                  ✗ Something went wrong.
+                  ✗ {errorMsg || 'Something went wrong.'}
                 </motion.div>
               )}
             </AnimatePresence>

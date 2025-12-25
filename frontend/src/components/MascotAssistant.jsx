@@ -49,22 +49,26 @@ export default function MascotAssistant() {
   }, [loadVoices]);
 
   const speak = useCallback((text, currentMood = 'happy') => {
-    if (!window.speechSynthesis || isGone) return;
+    if (!window.speechSynthesis) return;
     
-    // IMPORTANT: Cancel any ongoing speech immediately
+    // Cancel any ongoing speech and clear immediately
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
+    setMessage(text); // Update message instantly
 
+    // Create and speak new utterance immediately
     const utterance = new SpeechSynthesisUtterance(text);
     if (voicesRef.current) utterance.voice = voicesRef.current;
     
     utterance.pitch = currentMood === 'angry' ? 0.8 : currentMood === 'blushing' ? 2.2 : 1.8; 
+    utterance.rate = 1; // Normal speed
+    utterance.volume = 1; // Max volume
     utterance.onstart = () => { setIsSpeaking(true); setIsOpen(true); };
-    utterance.onend = () => setIsSpeaking(false);
+    utterance.onend = () => { setIsSpeaking(false); setIsOpen(false); };
+    utterance.onerror = () => { setIsSpeaking(false); };
     
     window.speechSynthesis.speak(utterance);
-    setMessage(text);
-  }, [isGone]);
+  }, []);
 
   // 2. SMART INTERACTIONS: Projects, Buttons, etc.
   useEffect(() => {
@@ -94,9 +98,9 @@ export default function MascotAssistant() {
         setHasInteracted(true);
         setMood('happy');
         const messages = [
-          "Let me tell you about him! IIIT Vadodara student, 234 LeetCode problems crushed, 97.4 percentile in JEE! Bahut smart hai!",
-          "This section has all the juicy details! B.Tech student with serious coding skills. Look at those stats!",
-          "About section! He's from IIIT Vadodara, loves solving problems, and has amazing JEE percentile. Very impressive!"
+          "Let me tell you about him! IIIT Vadodara student, 234 LeetCode problems crushed with 1750+ rating, 97.4 percentile in JEE! Bahut smart hai!",
+          "This section has all the juicy details! B.Tech student with 1750+ LeetCode rating and serious coding skills. Look at those stats!",
+          "About section! He's from IIIT Vadodara, 1750+ LeetCode rating, loves solving problems, and has amazing JEE percentile. Very impressive!"
         ];
         speak(messages[Math.floor(Math.random() * messages.length)], 'happy');
       }
@@ -155,9 +159,9 @@ export default function MascotAssistant() {
             "Want to connect professionally? LinkedIn is calling!"
           ]},
           'leetcode': { mood: 'happy', texts: [
-            "LeetCode warrior! 234 problems solved! He's a problem-solving machine!",
-            "LeetCode profile! Iska rating dekho - 1732! Very impressive!",
-            "234 problems solved on LeetCode! That's serious dedication!"
+            "LeetCode warrior! 234 problems solved with 1750+ rating! He's a problem-solving machine!",
+            "LeetCode profile! Iska rating dekho - 1750+! Very impressive!",
+            "234 problems solved on LeetCode with 1750+ rating! That's serious dedication!"
           ]},
           'codechef': { mood: 'blushing', texts: [
             "CodeChef 3 star! 1622 rating! Competitive programming master hai ye!",
@@ -234,9 +238,12 @@ export default function MascotAssistant() {
     setMood('blushing');
     const comebackMessages = [
       "Aa gye na meri yaad! I knew you'd miss me! 😊",
-      "Aa gye na! I was waiting for you to bring me back!",
-      "Dekho, aa hi gye! I'm so happy you wanted me back!",
-      "Arre, aa gye finally! Meri yaad aayi na? 🥰"
+      "Aa gye na! I was waiting for you to bring me back! Itni tezi se nahi chhode na mujhe...",
+      "Dekho, aa hi gye! I'm so happy you wanted me back! Sach me itna miss kiya? 🥺",
+      "Arre, aa gye finally! Meri yaad aayi na? 🥰 Main humesha aapke saath hu!",
+      "Aww, you brought me back! Tum mujhe karte ho pass - that's so sweet! 💕",
+      "Main return to ho gai! Chalo ab sath se portfolio explore karenge! Let's go!",
+      "Badha tha main tumse... but I knew you'd come back for me! 🎉"
     ];
     const randomMessage = comebackMessages[Math.floor(Math.random() * comebackMessages.length)];
     speak(randomMessage, 'blushing');
@@ -256,9 +263,11 @@ export default function MascotAssistant() {
     } else if (clickCount.current >= 4) {
       setMood('angry');
       const angryMessages = [
-        "Arre, stop poking me! I'm trying to help you!",
-        "Behave yourself! I'm your guide, not a toy!",
-        "Chalo, enough clicks! Focus on the portfolio instead!"
+        "Arre, stop poking me! I'm trying to help you, not get bullied! 😠",
+        "Behave yourself! I'm your guide, not a toy! Dignity rakho meri! 💢",
+        "Chalo, enough clicks! Focus on the portfolio instead of torturing me!",
+        "Itna poking karte ho? Main ro dunga! 😤 Hover on content instead!",
+        "Samajh nahi aata kya? Hover karo, click nahi! I'm getting frustrated! 🤨"
       ];
       speak(angryMessages[Math.floor(Math.random() * angryMessages.length)], 'angry');
     } else {
@@ -349,11 +358,26 @@ export default function MascotAssistant() {
                  <motion.circle r="4.5" fill="black" animate={{ cx: mousePos.x, cy: mousePos.y }} />
                  <motion.circle cx="8" cy="15" r="5" fill="#f472b6" animate={{ opacity: mood === 'blushing' ? 0.6 : 0 }} />
               </g>
-              <motion.path 
-                d={mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z"} 
-                fill="white" stroke="black" strokeWidth="2.5" 
-                animate={isSpeaking ? { scaleY: [1, 1.7, 1], transition: { repeat: Infinity, duration: 0.2 } } : { scaleY: 1 }}
-              />
+              <motion.g>
+                <motion.path 
+                  d={mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z"}
+                  fill="white" stroke="black" strokeWidth="2.5" 
+                  animate={isOpen ? { 
+                    d: [
+                      mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z",
+                      mood === 'angry' ? "M 35 75 Q 50 55 65 75 Q 50 60 35 75 Z" : "M 35 65 Q 50 90 65 65 Q 50 85 35 65 Z",
+                      mood === 'angry' ? "M 35 75 Q 50 60 65 75 Q 50 65 35 75 Z" : "M 35 68 Q 50 88 65 68 Q 50 83 35 68 Z",
+                      mood === 'angry' ? "M 35 75 Q 50 55 65 75 Q 50 60 35 75 Z" : "M 35 64 Q 50 92 65 64 Q 50 87 35 64 Z",
+                      mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z"
+                    ]
+                  } : { d: mood === 'angry' ? "M 35 75 Q 50 65 65 75 Q 50 70 35 75 Z" : "M 35 70 Q 50 80 65 70 Q 50 78 35 70 Z" }}
+                  transition={{ 
+                    repeat: isOpen ? Infinity : 0, 
+                    duration: 0.5,
+                    ease: "easeInOut"
+                  }}
+                />
+              </motion.g>
               <g stroke="black" strokeWidth="3.5" fill="none">
                 <motion.g animate={isWalking ? { rotate: [-35, 35, -35] } : { rotate: 0 }} style={{ originY: "92px", originX: "42px" }} transition={{ repeat: Infinity, duration: 0.5 }}>
                   <path d="M 42 92 L 42 120" strokeLinecap="round" /> <rect x="34" y="118" width="14" height="8" rx="4" fill="#000" />

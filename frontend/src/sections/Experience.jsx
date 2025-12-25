@@ -6,7 +6,7 @@ const items = [
     title: 'B.Tech in Computer Science and Engineering', 
     place: 'IIIT Vadodara', 
     time: '2023 - Present', 
-    desc: 'Current CPI: 7.7 | Specializing in Data Structures, Algorithms, and Full Stack Development. Active in competitive programming with 234 problems solved on LeetCode.'
+    desc: 'Current CPI: 7.7 | Specializing in Data Structures, Algorithms, and Full Stack Development. Active in competitive programming with 234 problems solved on LeetCode (1750+ rating)!'
   },
   { 
     title: 'JEE Mains 2023', 

@@ -24,7 +24,7 @@ export default function About() {
             
             <div className="relative z-10">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-                B.Tech student at IIIT Vadodara with a passion for building scalable web applications and solving complex algorithmic problems. Scored 97.4 percentile in JEE Mains 2023 and currently maintaining 7.7 CPI. Actively solving problems on LeetCode (234+ solved, 1732 rating) and CodeChef (3★, 1622 rating). Specialized in MERN stack development, DSA, and competitive programming.
+                B.Tech student at IIIT Vadodara with a passion for building scalable web applications and solving complex algorithmic problems. Scored 97.4 percentile in JEE Mains 2023 and currently maintaining 7.7 CPI. Actively solving problems on LeetCode (234+ solved, 1750+ rating) and CodeChef (3★, 1622 rating). Specialized in MERN stack development, DSA, and competitive programming.
               </p>
               
               {/* Stats Grid */}
