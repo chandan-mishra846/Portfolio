@@ -53,6 +53,7 @@ export default function Contact() {
       </ScrollReveal>
       
       <motion.form className="card card-hover grid gap-6 max-w-2xl mx-auto relative overflow-hidden" onSubmit={submit}
+        data-contact-section="true"
         variants={formVariants}
         initial="hidden"
         whileInView="show"
@@ -70,6 +71,7 @@ export default function Contact() {
               onChange={e => setForm({ ...form, name: e.target.value })} 
               onFocus={() => setFocused('name')} 
               onBlur={() => setFocused(null)} 
+              data-contact-section="true"
               required 
             />
             <motion.div 
@@ -89,6 +91,7 @@ export default function Contact() {
               onChange={e => setForm({ ...form, email: e.target.value })} 
               onFocus={() => setFocused('email')} 
               onBlur={() => setFocused(null)} 
+              data-contact-section="true"
               required 
             />
             <motion.div 
@@ -108,6 +111,7 @@ export default function Contact() {
               onChange={e => setForm({ ...form, message: e.target.value })} 
               onFocus={() => setFocused('message')} 
               onBlur={() => setFocused(null)} 
+              data-contact-section="true"
               required 
             />
             <motion.div 

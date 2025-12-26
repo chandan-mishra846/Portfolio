@@ -17,6 +17,14 @@ async function run() {
 
     await Project.insertMany([
       {
+        title: 'Filter Your University',
+        description: 'College filtering web app helping students find their perfect university match based on preferences, rankings, and location with interactive search.',
+        image: 'https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black',
+        liveLink: 'https://universityfilter.vercel.app/',
+        githubLink: 'https://github.com/chandan-mishra846/filter-your-university',
+        techStack: ['React', 'JavaScript', 'CSS', 'API Integration']
+      },
+      {
         title: 'E-commerce Website',
         description: 'Dynamic e-commerce fashion website built with HTML, CSS & JavaScript featuring product pages, cart system with localStorage, and responsive design.',
         image: 'https://img.shields.io/badge/HTML-E34C26?style=for-the-badge&logo=html5&logoColor=white',
@@ -67,14 +75,38 @@ async function run() {
     ]);
 
     await Skill.insertMany([
+      // Frontend
       { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', proficiency: 90 },
       { name: 'React.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg', proficiency: 85 },
+      { name: 'Tailwind CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg', proficiency: 85 },
+      { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg', proficiency: 70 },
+      { name: 'HTML & CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg', proficiency: 90 },
+      { name: 'Vite', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg', proficiency: 80 },
+      
+      // Backend
       { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', proficiency: 80 },
       { name: 'Express.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg', proficiency: 80 },
       { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg', proficiency: 75 },
-      { name: 'Tailwind CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg', proficiency: 85 },
-      { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg', proficiency: 70 },
-      { name: 'HTML & CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg', proficiency: 90 }
+      { name: 'Mongoose', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongoose/mongoose-original.svg', proficiency: 75 },
+      { name: 'REST API', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', proficiency: 85 },
+      
+      // DSA
+      { name: 'Data Structures', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg', proficiency: 80 },
+      { name: 'Algorithms', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg', proficiency: 75 },
+      { name: 'LeetCode', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', proficiency: 85 },
+      { name: 'CodeChef', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg', proficiency: 70 },
+      
+      // Tools
+      { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg', proficiency: 85 },
+      { name: 'GitHub', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg', proficiency: 85 },
+      { name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg', proficiency: 90 },
+      { name: 'Postman', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg', proficiency: 80 },
+      { name: 'Vercel', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg', proficiency: 75 },
+      
+      // Other
+
+      { name: 'Axios', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/axios/axios-plain.svg', proficiency: 85 },
+      { name: 'JWT', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', proficiency: 70 }
     ]);
 
     await Testimonial.insertMany([
@@ -83,7 +115,7 @@ async function run() {
       { name: 'Emma Wilson', role: 'Client', message: 'Professional, reliable, and highly skilled. The portfolio website looks amazing and performs beautifully!', image: '' }
     ]);
 
-    console.log('✅ Seeded 6 projects, 8 skills, 3 testimonials successfully!');
+    console.log('✅ Seeded 7 projects, 22 skills, 3 testimonials successfully!');
     process.exit(0);
   } catch (e) {
     console.error('❌ Error:', e.message);

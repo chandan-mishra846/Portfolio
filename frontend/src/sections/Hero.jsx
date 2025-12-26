@@ -5,16 +5,9 @@ import ScrollReveal from '../components/ScrollReveal';
 import FloatingBlob from '../components/FloatingBlob';
 import TextReveal from '../components/TextReveal';
 import MouseTracker from '../components/MouseTracker';
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 }
-  }
-};
-
-const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+import Floating3DShape from '../components/Floating3DShape';
+import GlitchText from '../components/GlitchText';
+import LiquidButton from '../components/LiquidButton';
 
 export default function Hero() {
   const photos = [
@@ -37,141 +30,172 @@ export default function Hero() {
     <>
       <MouseTracker />
       <section 
-        className="section container min-h-screen flex items-center relative overflow-hidden" 
+        className="section min-h-screen flex items-center relative overflow-hidden" 
         id="hero"
-        style={{ backgroundPosition: `0 ${scrollY * 0.5}px` }}
+        style={{
+          backgroundImage: 'url(/temp/Gemini_Generated_Image_1k045i1k045i1k04.png)',
+          backgroundSize: '105%',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
       >
-        {/* Animated Background Blobs */}
-        <div className="absolute inset-0 overflow-hidden">
-          <FloatingBlob />
-          <motion.div
-            className="absolute w-96 h-96 bg-gradient-to-r from-cyan-400/10 to-blue-500/10 rounded-full blur-3xl"
-            animate={{ y: [0, 30, 0], x: [0, -20, 0] }}
-            transition={{ duration: 10, repeat: Infinity }}
-            style={{ right: '-10%', top: '20%' }}
-          />
-        </div>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/20" />
 
-        <div className="w-full flex items-center justify-between gap-8 relative z-10">
-          <motion.div variants={container} initial="hidden" animate="show" className="flex-1">
-            <motion.div variants={item}>
-              <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
-                Hi, I'm{' '}
-                <span className="glow-text">Chandan Mishra</span>
-              </h1>
-            </motion.div>
-
-            <motion.div variants={item} className="mt-6">
-              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed blur-in">
-                Full Stack Developer crafting beautiful, scalable web experiences with modern tech. I transform ideas into pixel-perfect digital solutions. <br /><br />
-                <span className="inline-block animate-bounce">⚛️</span> React.js · <span className="inline-block animate-bounce" style={{ animationDelay: '0.2s' }}>🟢</span> Node.js · <span className="inline-block animate-bounce" style={{ animationDelay: '0.4s' }}>🚀</span> Express.js · <span className="inline-block animate-bounce" style={{ animationDelay: '0.6s' }}>🍃</span> MongoDB · <span className="inline-block animate-bounce" style={{ animationDelay: '0.8s' }}>🎨</span> Tailwind CSS
-              </p>
-            </motion.div>
-
-            <motion.div className="mt-8 flex gap-4 flex-wrap"
-              variants={item}>
-              <motion.a 
-                className="btn hover:scale-105 transition-transform card-hover" 
-                href="#contact"
-                data-mascot-trigger="hire"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+        <div className="w-full flex items-center justify-start relative z-10 min-h-screen pl-6 md:pl-12 lg:pl-16">
+          {/* Left Text Content */}
+          <motion.div 
+            className="w-full max-w-md"
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Main Heading */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mb-6"
+            >
+              <motion.h1
+                className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-white mb-2"
+                animate={{ x: [0, -1, 1, -2, 2, 0], rotate: [0, 0.4, -0.4, 0.2, -0.2, 0] }}
+                transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 5, ease: 'easeInOut' }}
               >
+                Hi, I'm
+              </motion.h1>
+              <motion.h2
+                className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-500"
+                animate={{ x: [0, 1, -1, 2, -2, 0], rotate: [0, -0.4, 0.4, -0.2, 0.2, 0] }}
+                transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 5, ease: 'easeInOut' }}
+              >
+                Chandan Mishra
+              </motion.h2>
+            </motion.div>
+
+            {/* Subtitle */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mb-6"
+            >
+              <motion.p
+                className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl font-light"
+                animate={{
+                  color: ['#e5e7eb', '#67e8f9', '#93c5fd', '#c084fc', '#e5e7eb'],
+                }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                Full Stack Developer crafting beautiful, scalable web experiences with modern tech. I transform ideas into pixel-perfect digital solutions.
+              </motion.p>
+            </motion.div>
+
+            {/* Tech Stack Badges - Inline with icons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-wrap gap-2 mb-6 items-center"
+            >
+              {[
+                { label: 'React.js', icon: '⚛️' },
+                { label: 'Node.js', icon: '🟢' },
+                { label: 'Express.js', icon: '⚡' },
+                { label: 'MongoDB', icon: '🍃' }
+              ].map((tech, idx) => (
+                <motion.div
+                  key={tech.label}
+                  className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-gray-800/30 border border-cyan-500/30 text-gray-200 text-xs font-medium"
+                  whileHover={{ scale: 1.05, borderColor: 'rgba(34, 211, 238, 0.5)' }}
+                  transition={{ delay: idx * 0.08 }}
+                >
+                  <span className="text-xs">{tech.icon}</span>
+                  <span>{tech.label}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex gap-3 mb-6 flex-wrap"
+            >
+              <LiquidButton href="#contact" data-mascot-trigger="hire" className="!px-5 !py-2 text-sm">
                 ✨ Hire Me
-              </motion.a>
-              <motion.a 
-                className="btn bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 hover:scale-105 transition-transform card-hover" 
+              </LiquidButton>
+              <LiquidButton 
                 href="#projects"
                 data-mascot-trigger="viewwork"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="!from-cyan-500 !to-cyan-400 !px-5 !py-2 text-sm"
               >
                 🚀 View Work
-              </motion.a>
+              </LiquidButton>
             </motion.div>
 
-            {/* Profile Links */}
-            <motion.div className="mt-6 flex gap-3 flex-wrap" variants={item}>
-              <motion.a 
-                href="https://leetcode.com/u/chandan_mishra846/" 
-                target="_blank" 
+            {/* Profile Links Badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex flex-wrap gap-2"
+            >
+              <motion.a
+                href="https://leetcode.com/u/chandan_mishra846/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                className="px-3 py-1.5 bg-gradient-to-r from-yellow-600/40 to-yellow-700/40 border border-yellow-500/50 text-yellow-300 rounded-lg text-xs font-semibold hover:border-yellow-400/70 transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
                 data-mascot-trigger="leetcode"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span>🏆</span> LeetCode (1750+)
               </motion.a>
-              <motion.a 
-                href="https://www.codechef.com/users/many_door_65" 
-                target="_blank" 
+              <motion.a
+                href="https://www.codechef.com/users/many_door_65"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                className="px-3 py-1.5 bg-gradient-to-r from-amber-700/40 to-orange-700/40 border border-amber-600/50 text-amber-300 rounded-lg text-xs font-semibold hover:border-amber-400/70 transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
                 data-mascot-trigger="codechef"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span>⭐</span> CodeChef (3★)
               </motion.a>
-              <motion.a 
-                href="https://github.com/yourusername" 
-                target="_blank" 
+              <motion.a
+                href="https://github.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                className="px-3 py-1.5 bg-gray-700/40 border border-gray-600/50 text-gray-300 rounded-lg text-xs font-semibold hover:border-gray-500/70 transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
                 data-mascot-trigger="github"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span>💻</span> GitHub
               </motion.a>
             </motion.div>
-
-            {/* Scroll Indicator */}
-            <motion.div
-              className="mt-12"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <p className="text-sm text-gray-500 dark:text-gray-400">Scroll to explore</p>
-              <motion.svg 
-                className="w-6 h-6 text-brand mx-auto"
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </motion.svg>
-            </motion.div>
-          </motion.div>
-
-          <motion.div 
-            className="hidden lg:flex flex-1 justify-center relative"
-            initial={{ scale: 0.8, opacity: 0, x: 50 }}
-            animate={{ scale: 1, opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, type: 'spring', stiffness: 100 }}
-          >
-            <motion.div 
-              className="relative w-72 h-72 rounded-full overflow-hidden shadow-2xl ring-4 ring-brand/20"
-              animate={{ 
-                boxShadow: [
-                  '0 0 20px rgba(79, 70, 229, 0.3)',
-                  '0 0 40px rgba(79, 70, 229, 0.6)',
-                  '0 0 20px rgba(79, 70, 229, 0.3)',
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              <ImageRotator 
-                images={photos}
-                interval={3000}
-                imgClassName="w-full h-full object-cover"
-                alt="Chandan Mishra"
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent" />
-            </motion.div>
           </motion.div>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <svg
+            className="w-6 h-6 text-cyan-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </motion.div>
       </section>
     </>
   );

@@ -1,0 +1,160 @@
+/* ============================================
+   3D UI Quick Reference - CSS Classes
+   ============================================ */
+
+/* === PERSPECTIVE & 3D BASE === */
+.perspective-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-out;
+}
+
+/* === DEPTH LAYERS === */
+.layer-3d-front { transform: translateZ(50px); }
+.layer-3d-mid { transform: translateZ(25px); }
+.layer-3d-back { transform: translateZ(0px); }
+
+/* === 3D EFFECTS === */
+.rotate-3d { animation: rotate3d 20s linear infinite; }
+.float-3d { animation: float3d 6s ease-in-out infinite; }
+.shadow-3d { /* Layered shadows with depth */ }
+.hover-lift:hover { transform: translateY(-10px) translateZ(20px); }
+
+/* === GLASSMORPHISM === */
+.glass-3d {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* === TEXT EFFECTS === */
+.text-3d { /* Multi-layer text shadow */ }
+.neon-3d { /* Glowing text with depth */ }
+
+/* === PARALLAX === */
+.parallax-depth-1 { transform: translateZ(-100px) scale(1.1); }
+.parallax-depth-2 { transform: translateZ(-50px) scale(1.05); }
+.parallax-depth-3 { transform: translateZ(0px) scale(1); }
+.parallax-depth-4 { transform: translateZ(50px) scale(0.95); }
+
+/* ============================================
+   COMPONENT USAGE EXAMPLES
+   ============================================ */
+
+/* 1. Card3D Component */
+import Card3D from './components/Card3D';
+
+<Card3D intensity={15}>
+  <div className="card">Your content</div>
+</Card3D>
+
+/* 2. Floating3DShape Component */
+import Floating3DShape from './components/Floating3DShape';
+
+<Floating3DShape 
+  type="cube"        // or "sphere", "pyramid", "ring"
+  delay={2}          // animation delay in seconds
+  position={{ top: '10%', left: '20%' }}
+/>
+
+/* 3. ParallaxLayer Component */
+import ParallaxLayer from './components/ParallaxLayer';
+
+<ParallaxLayer offset={30}>
+  <div>Content that moves on scroll</div>
+</ParallaxLayer>
+
+/* 4. Nav3D Component */
+import Nav3D from './components/Nav3D';
+
+<Nav3D /> // Auto-generates navigation with 3D effects
+
+/* 5. Cursor3D Component */
+import Cursor3D from './components/Cursor3D';
+
+<Cursor3D /> // Add once in App.jsx
+
+/* ============================================
+   FRAMER MOTION 3D TRANSFORMS
+   ============================================ */
+
+// Basic 3D rotation
+<motion.div
+  style={{ transformStyle: 'preserve-3d' }}
+  animate={{ rotateY: [0, 360] }}
+  transition={{ duration: 10, repeat: Infinity }}
+/>
+
+// 3D hover effect
+<motion.div
+  whileHover={{ 
+    rotateY: 10, 
+    rotateX: -5,
+    scale: 1.05 
+  }}
+/>
+
+// Depth-based transforms
+<motion.div
+  style={{ 
+    transform: 'translateZ(50px)',
+    transformStyle: 'preserve-3d' 
+  }}
+/>
+
+/* ============================================
+   COLOR VARIABLES (Tailwind)
+   ============================================ */
+
+brand       → #4f46e5 (Indigo)
+brand-dark  → #4338ca (Dark Indigo)
+cyan-400    → #22d3ee (Cyan)
+
+// Usage in gradients
+bg-gradient-to-r from-brand to-cyan-400
+bg-gradient-to-br from-brand/20 to-cyan-400/20
+
+/* ============================================
+   TIPS & BEST PRACTICES
+   ============================================ */
+
+1. Always set transformStyle: 'preserve-3d' on parent elements
+2. Use perspective: 1000px for realistic 3D depth
+3. Combine translateZ with scale for proper depth perception
+4. Keep 3D effects subtle on mobile for performance
+5. Use spring animations for natural movement
+6. Test with reduced motion preferences
+
+/* ============================================
+   PERFORMANCE OPTIMIZATION
+   ============================================ */
+
+✅ DO:
+- Use will-change: transform sparingly
+- Keep 3D transforms on composited layers
+- Use GPU-accelerated properties (transform, opacity)
+- Limit number of animated elements on screen
+
+❌ DON'T:
+- Animate width/height (use scale instead)
+- Stack too many 3D transforms
+- Forget to clean up event listeners
+- Use heavy blur effects on mobile
+
+/* ============================================
+   BROWSER COMPATIBILITY
+   ============================================ */
+
+✅ Fully Supported:
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+⚠️ Partial Support:
+- Mobile browsers (simplified effects)
+- Older browsers (fallback to 2D)

@@ -49,7 +49,7 @@ export default function MascotAssistant() {
   }, [loadVoices]);
 
   const speak = useCallback((text, currentMood = 'happy') => {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis || isDisabled || isGone) return;
     
     // Cancel any ongoing speech and clear immediately
     window.speechSynthesis.cancel();
@@ -68,13 +68,13 @@ export default function MascotAssistant() {
     utterance.onerror = () => { setIsSpeaking(false); };
     
     window.speechSynthesis.speak(utterance);
-  }, []);
+  }, [isDisabled, isGone]);
 
   // 2. SMART INTERACTIONS: Projects, Buttons, etc.
   useEffect(() => {
     // Project card HOVER (not click)
     const handleProjectHover = (e) => {
-      if (isGone) return;
+      if (isGone || isDisabled) return;
       const projectCard = e.target.closest('[data-project-title]');
       if (projectCard) {
         setHasInteracted(true);
@@ -92,7 +92,7 @@ export default function MascotAssistant() {
 
     // About section hover
     const handleAboutHover = (e) => {
-      if (isGone) return;
+      if (isGone || isDisabled) return;
       const aboutSection = e.target.closest('[data-about-section]');
       if (aboutSection) {
         setHasInteracted(true);
@@ -108,7 +108,7 @@ export default function MascotAssistant() {
 
     // Education/Experience hovers
     const handleEducationHover = (e) => {
-      if (isGone) return;
+      if (isGone || isDisabled) return;
       const eduItem = e.target.closest('[data-education-title]');
       if (eduItem) {
         setHasInteracted(true);
@@ -126,7 +126,7 @@ export default function MascotAssistant() {
 
     // Hire Me / Contact button hovers
     const handleButtonHover = (e) => {
-      if (isGone) return;
+      if (isGone || isDisabled) return;
       const btn = e.target.closest('[data-mascot-trigger]');
       if (btn) {
         setHasInteracted(true);
@@ -201,7 +201,7 @@ export default function MascotAssistant() {
 
     // Skills section hover
     const handleSkillHover = (e) => {
-      if (isGone) return;
+      if (isGone || isDisabled) return;
       const skill = e.target.closest('[data-skill-name]');
       if (skill) {
         setHasInteracted(true);
@@ -217,11 +217,40 @@ export default function MascotAssistant() {
       }
     };
 
+    // Contact section hover
+    const handleContactHover = (e) => {
+      if (isGone || isDisabled) return;
+      const contactSection = e.target.closest('[data-contact-section]');
+      if (contactSection) {
+        setHasInteracted(true);
+        setMood('happy');
+        const messages = [
+          "Get in Touch section! Want to connect? Fill the form and he'll reply super fast!",
+          "Contact form dekho! Share your message and start the conversation!",
+          "Ready to reach out? Fill in your details here and let's connect!",
+          "This is where the magic happens! Drop a message and he'll get back to you!"
+        ];
+        speak(messages[Math.floor(Math.random() * messages.length)], 'happy');
+      }
+    };
+
+    // Contact section mouse leave - stop speaking
+    const handleContactLeave = (e) => {
+      const contactSection = e.target.closest('[data-contact-section]');
+      if (contactSection && !e.target.closest('[data-contact-section]')) {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        setIsOpen(false);
+      }
+    };
+
     window.addEventListener('mouseover', handleProjectHover);
     window.addEventListener('mouseover', handleButtonHover);
     window.addEventListener('mouseover', handleSkillHover);
     window.addEventListener('mouseover', handleEducationHover);
     window.addEventListener('mouseover', handleAboutHover);
+    window.addEventListener('mouseover', handleContactHover);
+    window.addEventListener('mouseout', handleContactLeave);
     
     return () => {
       window.removeEventListener('mouseover', handleProjectHover);
@@ -229,8 +258,10 @@ export default function MascotAssistant() {
       window.removeEventListener('mouseover', handleSkillHover);
       window.removeEventListener('mouseover', handleEducationHover);
       window.removeEventListener('mouseover', handleAboutHover);
+      window.removeEventListener('mouseover', handleContactHover);
+      window.removeEventListener('mouseout', handleContactLeave);
     };
-  }, [isGone, speak]);
+  }, [isGone, isDisabled, speak]);
 
   const handleReturn = () => {
     setIsGone(false);
@@ -283,6 +314,7 @@ export default function MascotAssistant() {
 
   // Eyes tracking
   useEffect(() => {
+    if (isDisabled) return;
     const handleMouseMove = (e) => {
       setMousePos({ 
         x: (e.clientX / window.innerWidth - 0.5) * 12, 
@@ -290,7 +322,7 @@ export default function MascotAssistant() {
       });
     };
     const handleGlobalClick = (e) => {
-      if (e.target.closest('.mascot-body') || isGone) return;
+      if (e.target.closest('.mascot-body') || isGone || isDisabled) return;
       setHasInteracted(true);
       setIsWalking(true); 
       setTargetPos({ x: e.clientX - 56, y: e.clientY - 120 });
@@ -301,7 +333,7 @@ export default function MascotAssistant() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleGlobalClick);
     };
-  }, [isGone]);
+  }, [isGone, isDisabled]);
 
   if (isDisabled) return (
     <motion.button 
@@ -392,7 +424,12 @@ export default function MascotAssistant() {
 
         {/* Disable Button */}
         <motion.button
-          onClick={() => setIsDisabled(true)}
+          onClick={() => { 
+            window.speechSynthesis?.cancel();
+            setIsSpeaking(false);
+            setIsOpen(false);
+            setIsDisabled(true);
+          }}
           className="mt-2 px-2 py-1 bg-gray-800 text-white rounded-md text-[8px] font-bold hover:bg-red-600 transition-all"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
