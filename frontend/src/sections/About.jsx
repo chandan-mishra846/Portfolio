@@ -48,7 +48,6 @@ export default function About() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center right',
-        backgroundAttachment: 'fixed',
       }}
     >
       {/* Dark overlay for text readability */}

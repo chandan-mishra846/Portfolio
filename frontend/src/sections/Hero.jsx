@@ -32,9 +32,15 @@ export default function Hero() {
       <section 
         className="section min-h-screen flex items-center relative overflow-hidden" 
         id="hero"
+        style={{
+          backgroundImage: 'url(/temp/Gemini_Generated_Image_1k045i1k045i1k04.png)',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
       >
-        {/* Dark overlay for better contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+        {/* Dark gradient overlay for better contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
 
         <div className="w-full flex items-center justify-start relative z-10 min-h-screen pl-6 md:pl-12 lg:pl-16">
           {/* Left Text Content */}

@@ -67,7 +67,7 @@ export default function App() {
         <Projects />
         <Experience />
         <Certifications />
-        {/* <Testimonials /> */}
+        {/* <Testimonials /> */} 
         <Contact />
         <Footer />
       </motion.div>
