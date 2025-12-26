@@ -269,15 +269,68 @@ export default function MascotAssistant() {
     setMood('blushing');
     const comebackMessages = [
       "Aa gye na meri yaad! I knew you'd miss me! 😊",
-      "Aa gye na! I was waiting for you to bring me back! Itni tezi se nahi chhode na mujhe...",
+      "Aww, you came back for me! Miss kiya na? 💕",
       "Dekho, aa hi gye! I'm so happy you wanted me back! Sach me itna miss kiya? 🥺",
       "Arre, aa gye finally! Meri yaad aayi na? 🥰 Main humesha aapke saath hu!",
-      "Aww, you brought me back! Tum mujhe karte ho pass - that's so sweet! 💕",
-      "Main return to ho gai! Chalo ab sath se portfolio explore karenge! Let's go!",
-      "Badha tha main tumse... but I knew you'd come back for me! 🎉"
+      "Yay! You brought me back! Tum bina mere nahi reh sakte? 😊💕",
+      "Main return to ho gai! Chalo ab sath se portfolio explore karenge! Let's go! 🎉",
+      "Badha tha main tumse... but I knew you'd come back for me! 💕"
     ];
     const randomMessage = comebackMessages[Math.floor(Math.random() * comebackMessages.length)];
-    speak(randomMessage, 'blushing');
+    
+    // Delay speak to ensure isGone state is updated
+    setTimeout(() => {
+      setMessage(randomMessage);
+      setIsOpen(true);
+      
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(randomMessage);
+        if (voicesRef.current) utterance.voice = voicesRef.current;
+        utterance.pitch = 2.2; // Blushing voice
+        utterance.rate = 1;
+        utterance.volume = 1;
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => { setIsSpeaking(false); setIsOpen(false); };
+        utterance.onerror = () => setIsSpeaking(false);
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 100);
+  };
+
+  const handleEnable = () => {
+    setIsDisabled(false);
+    clickCount.current = 0;
+    setMood('blushing');
+    const enableMessages = [
+      "Aa gye na meri yaad! I knew you'd miss me! 😊",
+      "Aww, you came back for me! Miss kiya na? 💕",
+      "Dekho, enable kar hi diya! I'm so happy you wanted me back! 🥺",
+      "Arre, finally! Meri yaad aayi na? Main humesha ready hu help karne ke liye! 🥰",
+      "Yay! You brought me back! Tum bina mere nahi reh sakte? 😊💕",
+      "Ohho! Enable ho gai main! Chalo ab sath me explore karte hain! 🎉",
+      "Aa gai wapas! I knew you needed your guide! Let's explore together! 😊"
+    ];
+    const randomMessage = enableMessages[Math.floor(Math.random() * enableMessages.length)];
+    
+    // Delay speak to ensure isDisabled state is updated
+    setTimeout(() => {
+      setMessage(randomMessage);
+      setIsOpen(true);
+      
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(randomMessage);
+        if (voicesRef.current) utterance.voice = voicesRef.current;
+        utterance.pitch = 2.2; // Blushing voice
+        utterance.rate = 1;
+        utterance.volume = 1;
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => { setIsSpeaking(false); setIsOpen(false); };
+        utterance.onerror = () => setIsSpeaking(false);
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 100);
   };
 
   // Click behavior
@@ -337,8 +390,8 @@ export default function MascotAssistant() {
 
   if (isDisabled) return (
     <motion.button 
-      onClick={() => { setIsDisabled(false); handleReturn(); }} 
-      className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700 transition-all"
+      onClick={handleEnable} 
+      className="fixed bottom-20 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700 transition-all"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
@@ -347,7 +400,7 @@ export default function MascotAssistant() {
   );
 
   if (isGone) return (
-    <button onClick={handleReturn} className="fixed bottom-10 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700">
+    <button onClick={handleReturn} className="fixed bottom-20 right-10 z-[10000] bg-orange-600 text-white px-6 py-2 rounded-full font-mono text-xs shadow-2xl border-2 border-black hover:bg-orange-700">
       🔙 BRING BACK YOUR GUIDE
     </button>
   );

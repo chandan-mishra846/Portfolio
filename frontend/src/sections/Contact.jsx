@@ -28,21 +28,44 @@ export default function Contact() {
   async function submit(e) {
     e.preventDefault();
     setStatus('sending');
+    
+    // Client-side validation
+    const trimmedForm = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim()
+    };
+    
+    if (trimmedForm.name.length < 2) {
+      setStatus('error');
+      setErrorMsg('Name must be at least 2 characters long.');
+      return;
+    }
+    
+    if (trimmedForm.message.length < 10) {
+      setStatus('error');
+      setErrorMsg('Message must be at least 10 characters long.');
+      return;
+    }
+    
     try {
-      const trimmedForm = {
-        name: form.name.trim(),
-        email: form.email.trim(),
-        message: form.message.trim()
-      };
       await axios.post(`${api}/api/contact`, trimmedForm);
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
       setErrorMsg('');
       setTimeout(() => setStatus(null), 3000);
     } catch (err) {
-      setStatus('error');
-      setErrorMsg(err.response?.data?.error || 'Failed to send message. Please try again.');
-      console.error('Contact error:', err);
+      // If status is 502, message was saved but email failed
+      if (err.response?.status === 502) {
+        setStatus('sent');
+        setForm({ name: '', email: '', message: '' });
+        setErrorMsg('');
+        setTimeout(() => setStatus(null), 3000);
+      } else {
+        setStatus('error');
+        setErrorMsg(err.response?.data?.error || 'Failed to send message. Please try again.');
+        console.error('Contact error:', err);
+      }
     }
   }
 
