@@ -45,9 +45,10 @@ export default function About() {
       data-about-section="true"
       style={{
         backgroundImage: 'url(/temp/about.jpg)',
-        backgroundSize: '105%',
+        backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center right',
+        backgroundAttachment: 'fixed',
       }}
     >
       {/* Dark overlay for text readability */}
